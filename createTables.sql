@@ -41,7 +41,7 @@ CREATE TABLE Cities (
 );
 
 CREATE TABLE User_Current_Cities (
-    user_id INTEGER PRIMARY KEY, -- only user_id as PK bc key constraint
+    user_id INTEGER PRIMARY KEY,
     current_city_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users (user_id) 
     ON DELETE CASCADE,
@@ -82,7 +82,7 @@ CREATE TABLE Education (
     user_id INTEGER NOT NULL,
     program_id INTEGER NOT NULL, 
     program_year INTEGER NOT NULL,
-    PRIMARY KEY (user_id, program_id, program_year), -- Could also use UNIQUE?
+    PRIMARY KEY (user_id, program_id, program_year),
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
     ON DELETE CASCADE,
     FOREIGN KEY (program_id) REFERENCES Programs (program_id)
@@ -113,7 +113,7 @@ CREATE TABLE Participants (
     user_id INTEGER NOT NULL,
     confirmation VARCHAR2(100) NOT NULL,
     PRIMARY KEY (event_id, user_id),
-    FOREIGN KEY (event_id) REFERENCES Users_Events (event_id) 
+    FOREIGN KEY (event_id) REFERENCES User_Events (event_id) 
     ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users (user_id) 
     ON DELETE CASCADE,
@@ -167,21 +167,23 @@ CREATE TABLE Tags (
 CREATE SEQUENCE Cities_Sequence
     START WITH 1
     INCREMENT BY 1;
+
 CREATE TRIGGER New_City
     BEFORE INSERT ON Cities
     FOR EACH ROW
         BEGIN
-            SELECT Cities_Sequence.NEXTVAL INTO :NEW.<id_field> FROM DUAL;
+            SELECT Cities_Sequence.NEXTVAL INTO :NEW.city_id FROM DUAL;
         END;
 /
 
 CREATE SEQUENCE Programs_Sequence
     START WITH 1
     INCREMENT BY 1;
+
 CREATE TRIGGER New_Program
     BEFORE INSERT ON Programs
     FOR EACH ROW
         BEGIN
-            SELECT Programs_Sequence.NEXTVAL INTO :NEW.<id_field> FROM DUAL;
+            SELECT Programs_Sequence.NEXTVAL INTO :NEW.program_id FROM DUAL;
         END;
 /

@@ -118,7 +118,6 @@ CREATE TABLE Participants (
     FOREIGN KEY (user_id) REFERENCES Users (user_id) 
     ON DELETE CASCADE,
     CHECK (confirmation IN ('Attending', 'Unsure', 'Declines', 'Not_Replied'))
-    -- TODO: constraints
 );
 
 CREATE TABLE Albums (
@@ -132,7 +131,7 @@ CREATE TABLE Albums (
     cover_photo_id INTEGER NOT NULL,
     FOREIGN KEY (album_owner_id) REFERENCES Users (user_id)
     ON DELETE CASCADE,
-    CHECK (album_visibility IN ('Everyone, Friends, Friends_Of_Friends, Myself'))
+    CHECK (album_visibility IN ('Everyone', 'Friends', 'Friends_Of_Friends', 'Myself'))
 );
 
 CREATE TABLE Photos (
@@ -141,14 +140,17 @@ CREATE TABLE Photos (
     photo_caption VARCHAR2(2000),
     photo_created_time TIMESTAMP NOT NULL,
     photo_modified_time TIMESTAMP,
-    photo_link VARCHAR2(2000) NOT NULL,
-    FOREIGN KEY (album_id) REFERENCES Albums (album_id)
-    INITIALLY DEFERRED DEFERRABLE
+    photo_link VARCHAR2(2000) NOT NULL
 );
 
-ALTER TABLE ALBUMS
-ADD CONSTRAINT album_to_photos_cxn
-FOREIGN KEY (cover_photo_id) REFERENCES Photos (photo_id) ON DELETE CASCADE
+ALTER TABLE Albums
+ADD CONSTRAINT photo_created
+FOREIGN KEY (cover_photo_id) REFERENCES Photos (photo_id)
+INITIALLY DEFERRED DEFERRABLE;
+
+ALTER TABLE Photos
+ADD CONSTRAINT album_created
+FOREIGN KEY (album_id) REFERENCES Albums (album_id)
 INITIALLY DEFERRED DEFERRABLE;
 
 CREATE TABLE Tags (

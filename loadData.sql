@@ -67,8 +67,8 @@ FROM project1.Public_Event_Information P
 INNER JOIN Cities C
     ON P.event_city = C.city_name
     AND P.event_state = C.state_name
-    AND P.event_country = C.country_name
--- FIX --
+    AND P.event_country = C.country_name;
+
 -- Participants Not in Public DB--
 
 -- Because of Albums/Photos circular dependency, they have to be inserted in the same transaction
@@ -77,12 +77,12 @@ INNER JOIN Cities C
 -- Albums -- 
 INSERT INTO Albums (album_id, album_owner_id, album_name, album_created_time, album_modified_time, album_link, album_visibility, cover_photo_id)
 SELECT DISTINCT album_id, owner_id, album_name, album_created_time, album_modified_time, album_link, album_visibility, cover_photo_id
-FROM project1.Public_Photo_Information
+FROM project1.Public_Photo_Information;
 
 -- Photos --
 INSERT INTO Photos (photo_id, album_id, photo_caption, photo_created_time, photo_modified_time, photo_link)
 SELECT DISTINCT photo_id, album_id, photo_caption, photo_created_time, photo_modified_time, photo_link
-FROM project1.Public_Photo_Information
+FROM project1.Public_Photo_Information;
 
 COMMIT;
 SET AUTOCOMMIT ON;
@@ -90,7 +90,7 @@ SET AUTOCOMMIT ON;
 -- Tags --
 INSERT INTO Tags (tag_photo_id, tag_subject_id, tag_create_time, tag_x, tag_y)
 SELECT DISTINCT photo_id, tag_subject_id, tag_created_time, tag_x_coordinate, tag_y_coordinate
-FROM project1.Public_Tag_Information
+FROM project1.Public_Tag_Information;
  
 
 

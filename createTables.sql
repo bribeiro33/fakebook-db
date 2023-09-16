@@ -78,11 +78,12 @@ CREATE TABLE Programs (
     UNIQUE(institution, concentration, degree)
 );
 
+-- Allowed too many inserts
 CREATE TABLE Education (
     user_id INTEGER NOT NULL,
     program_id INTEGER NOT NULL, 
     program_year INTEGER NOT NULL,
-    PRIMARY KEY (user_id, program_id, program_year),
+    PRIMARY KEY (user_id, program_id),
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
     ON DELETE CASCADE,
     FOREIGN KEY (program_id) REFERENCES Programs (program_id)
@@ -156,7 +157,7 @@ INITIALLY DEFERRED DEFERRABLE;
 CREATE TABLE Tags (
     tag_photo_id INTEGER NOT NULL,
     tag_subject_id INTEGER NOT NULL,
-    tag_create_time TIMESTAMP NOT NULL,
+    tag_created_time TIMESTAMP NOT NULL,
     tag_x NUMBER NOT NULL,
     tag_y NUMBER NOT NULL,
     PRIMARY KEY (tag_photo_id, tag_subject_id),

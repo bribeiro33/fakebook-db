@@ -87,8 +87,9 @@ FROM project1.Public_Photo_Information;
 COMMIT;
 SET AUTOCOMMIT ON;
 
+-- Have to allow more to inserts to load
 -- Tags --
-INSERT INTO Tags (tag_photo_id, tag_subject_id, tag_create_time, tag_x, tag_y)
+INSERT INTO Tags (tag_photo_id, tag_subject_id, tag_created_time, tag_x, tag_y)
 SELECT DISTINCT photo_id, tag_subject_id, tag_created_time, tag_x_coordinate, tag_y_coordinate
 FROM project1.Public_Tag_Information;
  

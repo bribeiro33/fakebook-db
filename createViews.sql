@@ -30,7 +30,7 @@ CREATE VIEW View_User_Information AS
         FROM Education E
         INNER JOIN Programs P ON E.program_id = P.program_id
     )
-SELECT U.user_id, U.first_name, U.last_name, U.year_of_birth, U.month_of_birth, U.gender,
+SELECT U.user_id, U.first_name, U.last_name, U.year_of_birth, U.month_of_birth, U.day_of_birth, U.gender,
     CC.current_city, CC.current_state, CC.current_country,
     HC.hometown_city, HC.hometown_state, HC.hometown_country,
     UE.institution_name, UE.program_year, UE.program_concentration, UE.program_degree
